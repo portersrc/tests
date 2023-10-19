@@ -67,13 +67,15 @@ retrieve_sandbox_id() {
 
 # Check out the doc repo if required
 checkout_doc_repo_dir() {
-    local doc_repo=github.com/confidential-containers/documentation
-    export doc_repo_dir="${GOPATH}/src/${doc_repo}"    
+    local doc_repo=github.com/fidencio/confidential-containers
+    export doc_repo_dir="${GOPATH}/src/github.com/confidential-containers/documentation"    
     mkdir -p $(dirname ${doc_repo_dir}) && sudo chown -R ${USER}:${USER} $(dirname ${doc_repo_dir})
     if [ ! -d "${doc_repo_dir}" ]; then
-        git clone https://${doc_repo} "${doc_repo_dir}"
+        git clone --branch topic/set-io.containerd.cri.runtime.handler-annotation https://${doc_repo} "${doc_repo_dir}"
         # Update runtimeClassName from kata-cc to "$RUNTIMECLASS"
         sudo sed -i -e 's/\([[:blank:]]*runtimeClassName: \).*/\1'${RUNTIMECLASS:-kata}'/g' "${doc_repo_dir}/demos/ssh-demo/k8s-cc-ssh.yaml"
+        # Update runtimeClassName from kata-cc to "$RUNTIMECLASS"
+        sudo sed -i -e 's/\([[:blank:]]*io.containerd.cri.runtime-handler: \).*/\1'${RUNTIMECLASS:-kata}'/g' "${doc_repo_dir}/demos/ssh-demo/k8s-cc-ssh.yaml"
         chmod 600 ${doc_repo_dir}/demos/ssh-demo/ccv0-ssh
     fi
 }
