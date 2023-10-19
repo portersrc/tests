@@ -125,7 +125,12 @@ setup() {
 
   # Retrieve pod name, wait for it to come up, retrieve pod ip
   local pod_name=$(esudo kubectl get pod -o wide | grep sev-unencrypted | awk '{print $1;}')
-  kubernetes_wait_for_pod_ready_state "$pod_name" 40
+  kubernetes_wait_for_pod_ready_state "$pod_name" 40 || true
+
+  # DEBUG: Get pod info then intentionally wait to force same old error
+  esudo kubectl describe pod ${pod_name}
+  kubernetes_wait_for_pod_ready_state "$pod_name" 1
+
   local pod_ip=$(esudo kubectl get pod -o wide | grep sev-unencrypted | awk '{print $6;}')
 
   kubernetes_print_info "sev-unencrypted"
@@ -190,7 +195,12 @@ setup() {
 
   # Retrieve pod name, wait for it to come up, retrieve pod ip
   local pod_name=$(esudo kubectl get pod -o wide | grep sev-encrypted | awk '{print $1;}')
-  kubernetes_wait_for_pod_ready_state "$pod_name" 40
+  kubernetes_wait_for_pod_ready_state "$pod_name" 40 || true
+
+  # DEBUG: Get pod info then intentionally wait to force same old error
+  esudo kubectl describe pod ${pod_name}
+  kubernetes_wait_for_pod_ready_state "$pod_name" 1
+
   local pod_ip=$(esudo kubectl get pod -o wide | grep sev-encrypted | awk '{print $6;}')
 
   kubernetes_print_info "sev-encrypted"
@@ -225,7 +235,12 @@ setup() {
 
   # Retrieve pod name, wait for it to come up, retrieve pod ip
   local pod_name=$(esudo kubectl get pod -o wide | grep sev-encrypted | awk '{print $1;}')
-  kubernetes_wait_for_pod_ready_state "$pod_name" 40
+  kubernetes_wait_for_pod_ready_state "$pod_name" 40 || true
+
+  # DEBUG: Get pod info then intentionally wait to force same old error
+  esudo kubectl describe pod ${pod_name}
+  kubernetes_wait_for_pod_ready_state "$pod_name" 1
+
   local pod_ip=$(esudo kubectl get pod -o wide | grep sev-encrypted | awk '{print $6;}')
 
   kubernetes_print_info "sev-encrypted"
@@ -260,7 +275,12 @@ setup() {
 
   # Retrieve pod name, wait for it to come up, retrieve pod ip
   local pod_name=$(esudo kubectl get pod -o wide | grep sev-es-encrypted | awk '{print $1;}')
-  kubernetes_wait_for_pod_ready_state "$pod_name" 40
+  kubernetes_wait_for_pod_ready_state "$pod_name" 40 || true
+
+  # DEBUG: Get pod info then intentionally wait to force same old error
+  esudo kubectl describe pod ${pod_name}
+  kubernetes_wait_for_pod_ready_state "$pod_name" 1
+
   local pod_ip=$(esudo kubectl get pod -o wide | grep sev-es-encrypted | awk '{print $6;}')
 
   kubernetes_print_info "sev-es-encrypted"
