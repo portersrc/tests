@@ -129,6 +129,7 @@ setup() {
 
   # DEBUG: Get pod info then intentionally wait to force same old error
   esudo kubectl describe pod ${pod_name}
+  crictl -r unix:///run/containerd-nydus/containerd-nydus-grpc.sock images || true
   kubernetes_wait_for_pod_ready_state "$pod_name" 1
 
   local pod_ip=$(esudo kubectl get pod -o wide | grep sev-unencrypted | awk '{print $6;}')
