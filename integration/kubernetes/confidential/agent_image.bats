@@ -160,7 +160,7 @@ setup() {
 
 	assert_pod_fail "${pod_config}"
 
-	assert_logs_contain "containerd" 'failed to resolve reference \\"quay.io/kata-containers/confidential-containers-auth:test\\": pulling from host quay.io failed with status code \[manifests test\]: 401 UNAUTHORIZED'
+	assert_logs_contain "containerd" 'failed to resolve reference \\"quay.io/kata-containers/confidential-containers-auth:test\\": unexpected status from HEAD request to https://quay.io/v2/kata-containers/confidential-containers-auth/manifests/test: 401 UNAUTHORIZED'
 }
 
 teardown() {
